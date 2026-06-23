@@ -1,1 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>香港商業生存大富翁 - 隨機瘋狂檢討版</title>
+    <style>
+        :root {
+            --board-color: #f7f9fc;
+            --cell-border: #2c3e50;
+            --text-color: #2c3e50;
+            --primary-btn: #ff4757;
+        }
 
+        body {
+            font-family: 'Microsoft JhengHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #ff9ff3, #feca57, #54a0ff, #00d2d3);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-color);
+            min-height: 100vh;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1 {
+            color: #fff;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            font-size: 28px;
+            letter-spacing: 2px;
+        }
+
+        .monopoly-board {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(6, 1fr);
+            width: 780px; 
+            height: 780px;
+            background-color: var(--board-color);
+            border: 6px solid var(--cell-border);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .cell {
+            border: 1px solid var(--cell-border);
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            box-sizing: border-box;
+            padding: 2px;
+        }
+
+        .cell-banner {
+            width: 100%;
+            height: 25px;
+            border-bottom: 2px solid var(--cell-border);
+        }
+        .banner-red { background-color: #ff6b81; }    
+        .banner-orange { background-color: #ffa502; } 
+        .banner-blue { background-color: #1e90ff; }   
+
+        /* 根據要求：土地名字體大小固定為 20px */
+        .cell-name {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2px;
+            line-height: 1.3;
+            font-size: 20px; 
+            font-weight: bold;
+        }
+
+        .cell-price {
+            font-size: 14px;
+            color: #718093;
+            font-weight: bold;
+            margin-top: 2px;
+        }
+
+        .corner-cell {
+            background-color: #fff200;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .cell-0 { grid-column: 6; grid-row: 6; background-color: #2ed573; color: white;} 
+        .cell-1 { grid-column: 5; grid-row: 6; }
+        .cell-2 { grid-column: 4; grid-row: 6; }
+        .cell-3 { grid-column: 3; grid-row: 6; }
+        .cell-4 { grid-column: 2; grid-row: 6; }
+        .cell-5 { grid-column: 1; grid-row: 6; } 
+        .cell-6 { grid-column: 1; grid-row: 5; }
+        .cell-7 { grid-column: 1; grid-row: 4; }
+        .cell-8 { grid-column: 1; grid-row: 3; }
+        .cell-9 { grid-column: 1; grid-row: 2; }
+        .cell-10 { grid-column: 1; grid-row: 1; } 
+        .cell-11 { grid-column: 2; grid-row: 1; }
+        .cell-12 { grid-column: 3; grid-row: 1; }
+        .cell-13 { grid-column: 4; grid-row: 1; }
+        .cell-14 { grid-column: 5; grid-row: 1; }
+        .cell-15 { grid-column: 6; grid-row: 1; } 
+        .cell-16 { grid-column: 6; grid-row: 2; }
+        .cell-17 { grid-column: 6; grid-row: 3; }
+        .cell-18 { grid-column: 6; grid-row: 4; }
+        .cell-19 { grid-column: 6; grid-row: 5; }
+
+        .center-dashboard {
+            grid-column: 2 / 6;
+            grid-row: 2 / 6;
+            background-color: #f1f2f6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            border: 3px dashed #ffa502;
+            margin: 5px;
+            border-radius: 8px;
+        }
+
+        .status-panel {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            width: 85%;
+            border: 2px solid #74b9ff;
+        }
+
+        .player-token {
+            width: 32px;
+            height: 32px;
+            background: radial-gradient(circle, #fffa65, #fff200);
+            border-radius: 50%;
+            border: 3px solid #2c3e50;
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+            transition: all 0.2s;
+        }
+        .btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 25px rgba(255, 71, 87, 0.5); }
+        .btn:disabled { background: #ced6e0; box-shadow: none; cursor: not-allowed; transform: none; }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(44, 62, 80, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            border: 4px solid var(--cell-border);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .option-btn {
+            background-color: #f1f2f6;
+            border: 2px solid #ced6e0;
+            padding: 14px 18px;
+            border-radius:
